@@ -10,4 +10,15 @@
 
 #include "au5612.h"
 
-
+void au5612_init(void) 
+{
+  
+}
+void au5612_pll_lock(au5612_pll_lock_t pll_lock)
+{
+  
+}
+au5612_pll_lock_t au5612_get_pll_lock(void)
+{
+  
+}

@@ -28,7 +28,7 @@ typedef struct
 } hal_led_t;
 
 void hal_led_init(void);
-void hal_led_on(hal_led_num_t led_num);
-void hal_led_off(hal_led_num_t led_num);
+void hal_led_on(hal_led_num_t hal_led_num);
+void hal_led_off(hal_led_num_t hal_led_num);
 
 #endif
