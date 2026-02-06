@@ -127,16 +127,10 @@ int main(void)
     if (key_press_release_event(KEY_1))
     {
       printf("KEY_1 press-release\r\n");
-      au5612_led_set(1);
-      uint8_t locked = au5612_clkmon_is_locked();
-      if (locked != 0xFF) {
-        printf("CLKMON lock: %s\r\n", locked ? "LOCKED" : "UNLOCKED");
-      }
     }
     if (key_press_release_event(KEY_2))
     {
       printf("KEY_2 press-release\r\n");
-      au5612_led_set(0);
     }
     /* USER CODE END WHILE */
 

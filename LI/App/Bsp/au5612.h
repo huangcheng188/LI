@@ -38,21 +38,5 @@ au5612_pll_lock_t au5612_get_pll_lock(void);
  */
 uint8_t au5612_clkmon_is_locked(void);
 
-/**
- * @brief Control the PLL_LOCK LED (D6) by driving the AU5612 LOLb pin as a GPIO output.
- *
- * Notes:
- * - On your schematic, D6 is driven by AU5612 pin LOLb through Q3, and lights when the net is HIGH.
- * - Datasheet notes LOLb "can be programmed as other GPIO features".
- * - This function assumes LOLb has already been configured (via GUI/NVM GPIO table) to a GPIOx
- *   "general purpose output". If it is still configured as "Loss of Lock Indicator", this won't override it.
- *
- * Default mapping uses GPIO index AU5612_LED_GPIO_INDEX. Update it if your LOLb maps to a different GPIO.
- */
-#ifndef AU5612_LED_GPIO_INDEX
-#define AU5612_LED_GPIO_INDEX 0u
-#endif
-void au5612_led_set(uint8_t on);
-
 #endif
 
