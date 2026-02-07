@@ -5,6 +5,11 @@
  */
 #include "bsp.h"
 
+#include "hal_i2c.h"
+
+/* Use your board's hardware I2C (already debugged elsewhere) */
+extern I2C_HandleTypeDef hi2c1;
+
 extern uint8 LogicOutputSel;
 extern UART_HandleTypeDef huart1;
 #if AvEnableKeyInput
@@ -22,6 +27,8 @@ AvRet ManI2cRead(uint32 devAddress, uint32 regAddress, uint8 *i2cdata, uint16 co
 AvRet BspInit(void)
 {
     AvRet ret = AvOk;
+    /* Bind HAL I2C handle for BSP I2C access */
+    hal_i2c_bind(&hi2c1);
     return ret;
 }
 
@@ -37,7 +44,7 @@ AvRet BspI2cRead(uint32 devAddress, uint32 regAddress, uint8 *data, uint16 count
     uint8 regAddressWidth = (uint8)AvGetRegAddressWidth(devAddress);
     regAddressWidth = (regAddressWidth == 0) ? 0 : 1;
     uint16 regAdress = (uint32)((AvGetRegAddress(devAddress)<<8) | AvGetRegAddress(regAddress));
-    ManI2cRead(deviceAddress, regAdress, data, count, busAddress, regAddressWidth);
+    ret = ManI2cRead(deviceAddress, regAdress, data, count, busAddress, regAddressWidth);
     return ret;
 }
 
@@ -53,7 +60,7 @@ AvRet BspI2cWrite(uint32 devAddress, uint32 regAddress, uint8 *data, uint16 coun
     uint8 regAddressWidth = (uint8)AvGetRegAddressWidth(devAddress);
     regAddressWidth = (regAddressWidth == 0) ? 0 : 1;
     uint16 regAdress = (uint32)((AvGetRegAddress(devAddress)<<8) | AvGetRegAddress(regAddress));
-    ManI2cWrite(deviceAddress, regAdress, data, count, busAddress, regAddressWidth);
+    ret = ManI2cWrite(deviceAddress, regAdress, data, count, busAddress, regAddressWidth);
     return ret;
 }
 HAL_StatusTypeDef UART_Receive(uint8_t *pData, uint16_t Size)
@@ -169,4 +176,52 @@ AvRet BspIrdaGetByte(uint8 *data)
     return ret;
 }
 
-#include "i2c.c"
+/* -------------------------------------------------------------------------- */
+/* Hardware-I2C implementation (replace bit-banged i2c.c)                      */
+/* devAddress: 8-bit (7-bit << 1), regAddress: 8/16-bit by Flag16bit           */
+/* -------------------------------------------------------------------------- */
+AvRet ManI2cWrite(uint32 devAddress,
+                  uint32 regAddress,
+                  uint8 *i2cdata,
+                  uint16 count,
+                  uint8 index,
+                  uint8 Flag16bit)
+{
+    (void)index;
+    /* Safe: bind even if BspInit() wasn't called yet */
+    hal_i2c_bind(&hi2c1);
+
+    const uint16_t dev7 = (uint16_t)((devAddress >> 1) & 0x7Fu);
+    const uint16_t memSize = (Flag16bit != 0) ? I2C_MEMADD_SIZE_16BIT : I2C_MEMADD_SIZE_8BIT;
+
+    HAL_StatusTypeDef st = hal_i2c_mem_write(dev7,
+                                            (uint16_t)regAddress,
+                                            memSize,
+                                            (const uint8_t *)i2cdata,
+                                            (uint16_t)count,
+                                            200u);
+    return (st == HAL_OK) ? AvOk : AvError;
+}
+
+AvRet ManI2cRead(uint32 devAddress,
+                 uint32 regAddress,
+                 uint8 *i2cdata,
+                 uint16 count,
+                 uint8 index,
+                 uint8 Flag16bit)
+{
+    (void)index;
+    /* Safe: bind even if BspInit() wasn't called yet */
+    hal_i2c_bind(&hi2c1);
+
+    const uint16_t dev7 = (uint16_t)((devAddress >> 1) & 0x7Fu);
+    const uint16_t memSize = (Flag16bit != 0) ? I2C_MEMADD_SIZE_16BIT : I2C_MEMADD_SIZE_8BIT;
+
+    HAL_StatusTypeDef st = hal_i2c_mem_read(dev7,
+                                           (uint16_t)regAddress,
+                                           memSize,
+                                           (uint8_t *)i2cdata,
+                                           (uint16_t)count,
+                                           200u);
+    return (st == HAL_OK) ? AvOk : AvError;
+}
