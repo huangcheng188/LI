@@ -130,8 +130,9 @@ AvRet BspGetKey(uint8 *data)
     uint8 value;
     uint8 CombinedValue = 0;
 
-    value = HAL_GPIO_ReadPin(GPIOA, KEY0_Pin);
-    CombinedValue = CombinedValue | ((1-value)<<0);
+    /* Adapt SDK KEY0 to board KEY_1 (PB12), press = high level */
+    value = (uint8)HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12);
+    CombinedValue = CombinedValue | ((value == GPIO_PIN_SET) ? (1u<<0) : 0u);
 
     if(CombinedValue == 0)
     {

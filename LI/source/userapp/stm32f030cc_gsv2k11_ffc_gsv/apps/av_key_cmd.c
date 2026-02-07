@@ -3,6 +3,24 @@
 #include "hal.h"
 #include "kapi.h"
 
+/* Board LED mapping (2 physical LEDs -> SDK expects 3)
+ * - LED0 -> PB14
+ * - LED1 -> PB15
+ * - LED2 -> (LED0|LED1) 组合灯：同时两灭/两亮
+ */
+#ifndef LED_GPIO_PORT
+#define LED_GPIO_PORT GPIOB
+#endif
+#ifndef LED0_Pin
+#define LED0_Pin GPIO_PIN_14
+#endif
+#ifndef LED1_Pin
+#define LED1_Pin GPIO_PIN_15
+#endif
+#ifndef LED2_Pin
+#define LED2_Pin (GPIO_PIN_14 | GPIO_PIN_15)
+#endif
+
 extern uint8  EdidHdmi2p0;
 extern uint8  LogicOutputSel;
 
@@ -44,23 +62,24 @@ void ListenToKeyCommand(AvPort *port)
 void RxInLedOut(uint8 enable)
 {
     if(enable == 1)
-        HAL_GPIO_WritePin(GPIOA, LED0_Pin, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(LED_GPIO_PORT, LED0_Pin, GPIO_PIN_RESET);
     else
-        HAL_GPIO_WritePin(GPIOA, LED0_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED_GPIO_PORT, LED0_Pin, GPIO_PIN_SET);
 }
 
 void TxOutLedOut(uint8 index, uint8 enable)
 {
+    (void)index;
     if(enable == 1)
-        HAL_GPIO_WritePin(GPIOA, LED1_Pin, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(LED_GPIO_PORT, LED1_Pin, GPIO_PIN_RESET);
     else
-        HAL_GPIO_WritePin(GPIOA, LED1_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED_GPIO_PORT, LED1_Pin, GPIO_PIN_SET);
 }
 
 void LogicLedOut(uint8 enable)
 {
     if(enable == 1)
-        HAL_GPIO_WritePin(GPIOA, LED2_Pin, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(LED_GPIO_PORT, LED2_Pin, GPIO_PIN_RESET);
     else
-        HAL_GPIO_WritePin(GPIOA, LED2_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED_GPIO_PORT, LED2_Pin, GPIO_PIN_SET);
 }
