@@ -93,13 +93,20 @@ void UART_Transmit(uint8_t *pData, uint16_t Size)
  */
 AvRet BspUartSendByte(uint8 *data, uint16 size)
 {
+    /* 原始实现（保留注释，不删除）
     AvRet ret = AvOk;
-#if GSV_HAL_COMPRESS
-   UART_Transmit(data, size);
-#else
-   HAL_UART_Transmit(&huart1, data, size, 100);
-#endif
+    #if GSV_HAL_COMPRESS
+       UART_Transmit(data, size);
+    #else
+       HAL_UART_Transmit(&huart1, data, size, 100);
+    #endif
     return ret;
+    */
+
+    /* 适配：始终使用硬件 UART1 (huart1) */
+    if(data == 0 || size == 0)
+        return AvOk;
+    return (HAL_UART_Transmit(&huart1, data, size, 100) == HAL_OK) ? AvOk : AvError;
 }
 
 /**
@@ -108,15 +115,24 @@ AvRet BspUartSendByte(uint8 *data, uint16 size)
  */
 AvRet BspUartGetByte(uint8 *data)
 {
+    /* 原始实现（保留注释，不删除）
     AvRet ret = AvOk;
-#if GSV_HAL_COMPRESS
-    if(UART_Receive(data,1) != HAL_OK)
-        ret = AvError;
-#else
-    if(HAL_UART_Receive(&huart1, data, 1, 0) != HAL_OK)
-        ret = AvError;
-#endif
+    #if GSV_HAL_COMPRESS
+        if(UART_Receive(data,1) != HAL_OK)
+            ret = AvError;
+    #else
+        if(HAL_UART_Receive(&huart1, data, 1, 0) != HAL_OK)
+            ret = AvError;
+    #endif
     return ret;
+    */
+
+    /* 适配：始终使用硬件 UART1 (huart1)
+     * SDK 的 av_uart_cmd.c 里用 AvError 表示“无数据则返回”
+     */
+    if(data == 0)
+        return AvError;
+    return (HAL_UART_Receive(&huart1, data, 1, 0) == HAL_OK) ? AvOk : AvError;
 }
 
 /**
