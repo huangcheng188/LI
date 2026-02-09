@@ -25,6 +25,7 @@
 #include "key.h"
 #include "au5612.h"
 #include "gsv2011.h"
+#include "av_main.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -115,6 +116,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  GsvMain();
   while (1)
   {
 	  // printf("Hello Greemol\n");
@@ -123,7 +125,7 @@ int main(void)
     // HAL_Delay(1000);
     // HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_15);
     // HAL_Delay(1000);
-    /* 按下后抬起才生效：只触发�??�?? */
+    /* 按下后抬起才生效：只触发�??�?? */
     if (key_press_release_event(KEY_1))
     {
       printf("KEY_1 press-release\r\n");

@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F030xC</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;     ../Drivers/STM32F0xx_HAL_Driver/Inc;     ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy;     ../Drivers/CMSIS/Device/ST/STM32F0xx/Include;     ../Drivers/CMSIS/Include;     ..\App\Bsp;     ..\App\Hal</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F0xx_HAL_Driver/Inc;../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F0xx/Include;../Drivers/CMSIS/Include;..\App\Bsp;..\App\Hal;..\source\kapi;..\source\uapi\gsv2k11_r1_reg;..\source\userapp\stm32f030cc_gsv2k11_ffc_gsv\apps;..\source\userbsp\keil\stm32f030cc_gsv2k11_ffc_gsv;..\source\uapi</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -649,6 +649,106 @@
               <FileName>led.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\App\Bsp\led.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>SDK/userbsp</GroupName>
+          <Files>
+            <File>
+              <FileName>bsp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\userbsp\keil\stm32f030cc_gsv2k11_ffc_gsv\bsp.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>SDK/userapp</GroupName>
+          <Files>
+            <File>
+              <FileName>av_main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\userapp\stm32f030cc_gsv2k11_ffc_gsv\apps\av_main.c</FilePath>
+            </File>
+            <File>
+              <FileName>av_common.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\userapp\stm32f030cc_gsv2k11_ffc_gsv\apps\av_common.c</FilePath>
+            </File>
+            <File>
+              <FileName>av_event_handler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\userapp\stm32f030cc_gsv2k11_ffc_gsv\apps\av_event_handler.c</FilePath>
+            </File>
+            <File>
+              <FileName>av_key_cmd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\userapp\stm32f030cc_gsv2k11_ffc_gsv\apps\av_key_cmd.c</FilePath>
+            </File>
+            <File>
+              <FileName>av_uart_cmd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\userapp\stm32f030cc_gsv2k11_ffc_gsv\apps\av_uart_cmd.c</FilePath>
+            </File>
+            <File>
+              <FileName>av_edid_manage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\userapp\stm32f030cc_gsv2k11_ffc_gsv\apps\av_edid_manage.c</FilePath>
+            </File>
+            <File>
+              <FileName>av_irda_cmd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\userapp\stm32f030cc_gsv2k11_ffc_gsv\apps\av_irda_cmd.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>SDK/kapi</GroupName>
+          <Files>
+            <File>
+              <FileName>kapi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\kapi\kapi.c</FilePath>
+            </File>
+            <File>
+              <FileName>kernel_fsm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\kapi\kernel_fsm.c</FilePath>
+            </File>
+            <File>
+              <FileName>kernel_status_update.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\kapi\kernel_status_update.c</FilePath>
+            </File>
+            <File>
+              <FileName>kapi_debug_info.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\kapi\kapi_debug_info.c</FilePath>
+            </File>
+            <File>
+              <FileName>uapi_function_mapper.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\kapi\uapi_function_mapper.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>SDK/uapi</GroupName>
+          <Files>
+            <File>
+              <FileName>uapi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\uapi\uapi.c</FilePath>
+            </File>
+            <File>
+              <FileName>hal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\uapi\hal.c</FilePath>
+            </File>
+            <File>
+              <FileName>gsv2k11.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\source\uapi\gsv2k11.c</FilePath>
             </File>
           </Files>
         </Group>
